@@ -19,30 +19,21 @@ export default class Login extends Component {
     if (token !== null) {
       this.props.history.push("/home");
     }
-    Axios.get("http://localhost:9876/api/v2/produk/list", {
-      headers: { "X-Requested-With": "XMLHttpRequest" },
-    })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
   };
   handleSubmit = (event) => {
     console.log(this.state.nama_user);
-    Axios.post("http://localhost:9876/api/v2/user/login", {
+    Axios.post("http://localhost:9876/api/v2/user/insert", {
       nama_user: this.state.nama_user,
     })
       .then((response) => {
-        console.log(response.data.message);
-        if (response.data.message === "user tidak ditemukan") {
-          this.setState({ hidden: false });
+        console.log(response);
+        // if (response.data.message === "user tidak ditemukan") {
+        //   this.setState({ hidden: false });
           this.props.history.push("/");
-        } else {
-          localStorage.setItem("token", response.data.token);
-          this.props.history.push("/home");
-        }
+        // } else {
+        //   localStorage.setItem("token", response.data.token);
+        //   this.props.history.push("/home");
+        // }
       })
       .catch((error) => {
         console.log(error);
@@ -80,7 +71,7 @@ export default class Login extends Component {
                   paddingBottom: "20px",
                 }}
               >
-                Sign In
+                Register
               </h2>
               <p
                 hidden={this.state.hidden}
@@ -105,9 +96,9 @@ export default class Login extends Component {
                     style={{ width: "100%" }}
                     size="sm"
                     variant="primary"
-                    type="submit"
+                    onClick={() => this.props.history.push("/")}
                   >
-                    Login
+                    Cancel
                   </Button>
                 </Col>
                 <Col md={6}>
@@ -116,7 +107,6 @@ export default class Login extends Component {
                     size="sm"
                     variant="primary"
                     type="submit"
-                    onClick={() => this.props.history.push("/register")}
                   >
                     Register
                   </Button>
